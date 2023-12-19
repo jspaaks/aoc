@@ -1,0 +1,4 @@
+/.idea
+/venv
+/**/input.txt
+/**/__pycache__
