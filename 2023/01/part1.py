@@ -1,3 +1,8 @@
+"""
+https://adventofcode.com/2023/day/1
+"""
+
+
 def solve(data_in):
     numeric = {str(item) for item in range(0, 10)}
     numbers_only = [[c for c in line if c in numeric] for line in data_in]

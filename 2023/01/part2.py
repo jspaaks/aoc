@@ -1,3 +1,6 @@
+"""
+https://adventofcode.com/2023/day/1
+"""
 numeric = {str(item) for item in range(0, 10)}
 
 
