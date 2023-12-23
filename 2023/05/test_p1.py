@@ -1,20 +1,21 @@
 """
 https://adventofcode.com/2023/day/5
 """
-import os
-from pathlib import Path
+import pytest
 
 
-def read_sibling_file(name):
-    d = os.path.dirname(os.path.realpath(__file__))
-    f = Path(d, name)
-    with open(f, "rt") as fid:
-        return fid.read()
-
-
-def main():
-    txt = read_sibling_file("input.txt")
-    print(solve(txt))
+def get_data():
+    ret = []
+    testdata = [
+        ("example.txt", min([82, 43, 86, 35])),
+        ("input.txt", 261668924),
+    ]
+    for name, expected in testdata:
+        fname = __file__.replace("test_p1.py", name)
+        with open(fname, "rt") as fid:
+            txt = fid.read()
+        ret.append(pytest.param((txt, expected), id=name))
+    return ret
 
 
 def get_seed_ids(lines):
@@ -50,11 +51,7 @@ def solve(txt):
     return min(location_ids)
 
 
-def test():
-    txt = read_sibling_file("example.txt")
-    expected = min([82, 43, 86, 35])
+@pytest.mark.parametrize("data", get_data())
+def test(data):
+    txt, expected = data
     assert solve(txt) == expected
-
-
-if __name__ == "__main__":
-    main()
