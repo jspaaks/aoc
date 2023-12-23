@@ -1,7 +1,10 @@
 """
 https://adventofcode.com/2023/day/1
 """
-numeric = {str(item) for item in range(0, 10)}
+import pytest
+
+
+numerals = {str(item) for item in range(0, 10)}
 
 
 def _replace_spelled_outs(lines):
@@ -45,36 +48,31 @@ def _replace_spelled_outs(lines):
 
 
 def _throw_out_alphas(lines):
-    return [[c for c in line if c in numeric] for line in lines]
+    return [[c for c in line if c in numerals] for line in lines]
 
 
-def solve(lines):
+def solve(txt):
+    lines = txt.splitlines()
     lines_no_spelled_outs = _replace_spelled_outs(lines)
     numbers_only = _throw_out_alphas(lines_no_spelled_outs)
     return sum([int("".join([elem[0], elem[-1]])) for elem in numbers_only])
 
 
-def test_example():
-    data_in = [
-        "two1nine",
-        "eightwothree",
-        "abcone2threexyz",
-        "xtwone3four",
-        "4nineeightseven2",
-        "zoneight234",
-        "7pqrstsixteen",
+def get_data():
+    ret = []
+    testdata = [
+        ("example-2.txt", sum([29, 83, 13, 24, 42, 14, 76])),
+        ("input.txt", 54845),
     ]
-    data_out = sum([
-        29, 83, 13, 24, 42, 14, 76
-    ])
-    assert data_out == solve(data_in)
+    for name, expected in testdata:
+        fname = __file__.replace("test_p2.py", name)
+        with open(fname, "rt") as fid:
+            txt = fid.read()
+        ret.append(pytest.param((txt, expected), id=name))
+    return ret
 
 
-def main():
-    with open("input.txt", "rt") as fid:
-        lines = fid.read().splitlines()
-    print(solve(lines))
-
-
-if __name__ == "__main__":
-    main()
+@pytest.mark.parametrize("data", get_data())
+def test(data):
+    txt, expected = data
+    assert expected == solve(txt)
