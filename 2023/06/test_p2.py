@@ -1,22 +1,21 @@
 """
 https://adventofcode.com/2023/day/6
 """
-import os
-from pathlib import Path
-from functools import reduce
-from operator import mul
+import pytest
 
 
-def read_sibling_file(name):
-    d = os.path.dirname(os.path.realpath(__file__))
-    f = Path(d, name)
-    with open(f, "rt") as fid:
-        return fid.read()
-
-
-def main():
-    txt = read_sibling_file("input.txt")
-    print(solve(txt))
+def get_data():
+    ret = []
+    testdata = [
+        ("example.txt", 71503),
+        ("input.txt", 28973936),
+    ]
+    for name, expected in testdata:
+        fname = __file__.replace("test_p2.py", name)
+        with open(fname, "rt") as fid:
+            txt = fid.read()
+        ret.append(pytest.param((txt, expected), id=name))
+    return ret
 
 
 def get_duration(lines):
@@ -44,11 +43,7 @@ def solve(txt):
     return nways
 
 
-def test():
-    txt = read_sibling_file("example.txt")
-    expected = 71503
+@pytest.mark.parametrize("data", get_data())
+def test(data):
+    txt, expected = data
     assert solve(txt) == expected
-
-
-if __name__ == "__main__":
-    main()
