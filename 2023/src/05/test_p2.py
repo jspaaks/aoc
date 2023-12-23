@@ -8,7 +8,7 @@ def get_data():
     ret = []
     testdata = [
         ("example.txt", 46),
-        ("input.txt", 24261545),
+        ("input.txt", 24261545),  # slow
     ]
     for name, expected in testdata:
         fname = __file__.replace("test_p2.py", name)

@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aov2023"
+version = "0.1.0"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+
+[tool.pytest.ini_options]
+# --max-fail=1 terminate testing on the first error
+# --strict-config: any errors in this section will raise an error
+# --strict-markers: tests decorated with unregistered markers will raise an error
+addopts = "--verbose --maxfail=1 --cache-clear --strict-config --strict-markers"
+markers = [
+    "slow: tests that are slow",
+]

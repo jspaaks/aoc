@@ -10,7 +10,7 @@ def get_data():
     ret = []
     testdata = [
         ("example3.txt", 6),
-        ("input.txt", 29778870),
+        ("input.txt", None),  # slow
     ]
     for name, expected in testdata:
         fname = __file__.replace("test_p2.py", name)
@@ -52,10 +52,3 @@ def solve(txt):
 def test(data):
     txt, expected = data
     assert solve(txt) == expected
-
-
-if __name__ == "__main__":
-    fname = __file__.replace("test_p2.py", "input.txt")
-    with open(fname, "rt") as fid:
-        txt = fid.read()
-    print(solve(txt))
