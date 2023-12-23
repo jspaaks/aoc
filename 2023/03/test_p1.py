@@ -8,28 +8,17 @@ numerals = {str(i) for i in range(0, 10)}
 
 
 def get_data():
-    txt = "".join([
-        "467..114..\n",
-        "...*......\n",
-        "..35..633.\n",
-        "......#...\n",
-        "617*......\n",
-        ".....+.58.\n",
-        "..592.....\n",
-        "......755.\n",
-        "...$.*....\n",
-        ".664.598..\n",
-    ])
-    expected = sum([467, 35, 633, 617, 592, 755, 664, 598])
-    return [
-        pytest.param((txt, expected), id="example")
+    ret = []
+    testdata = [
+        ("example.txt", sum([467, 35, 633, 617, 592, 755, 664, 598])),
+        ("input.txt", 556367),
     ]
-
-
-def main():
-    with open("input.txt", "rt") as fid:
-        txt = fid.read()
-    print(solve(txt))
+    for name, expected in testdata:
+        fname = __file__.replace("test_p1.py", name)
+        with open(fname, "rt") as fid:
+            txt = fid.read()
+        ret.append(pytest.param((txt, expected), id=name))
+    return ret
 
 
 def get_part_id(data, *, irow, icol):
@@ -106,7 +95,3 @@ def solve(txt):
 def test(data):
     txt, expected = data
     assert solve(txt) == expected
-
-
-if __name__ == "__main__":
-    main()

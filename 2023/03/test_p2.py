@@ -1,8 +1,6 @@
 """
 https://adventofcode.com/2023/day/3
 """
-import os
-from pathlib import Path
 import pytest
 
 
@@ -10,30 +8,17 @@ numerals = {str(i) for i in range(0, 10)}
 
 
 def get_data():
-    txt = "".join([
-        "467..114..\n",
-        "...*......\n",
-        "..35..633.\n",
-        "......#...\n",
-        "617*......\n",
-        ".....+.58.\n",
-        "..592.....\n",
-        "......755.\n",
-        "...$.*....\n",
-        ".664.598..\n",
-    ])
-    expected = sum([467 * 35, 755 * 598])
-    return [
-        pytest.param((txt, expected), id="example")
+    ret = []
+    testdata = [
+        ("example.txt", sum([467 * 35, 755 * 598])),
+        ("input.txt", 89471771),
     ]
-
-
-def main():
-    d = os.path.dirname(os.path.realpath(__file__))
-    f = Path(d, "input.txt")
-    with open(f, "rt") as fid:
-        txt = fid.read()
-    print(solve(txt))
+    for name, expected in testdata:
+        fname = __file__.replace("test_p2.py", name)
+        with open(fname, "rt") as fid:
+            txt = fid.read()
+        ret.append(pytest.param((txt, expected), id=name))
+    return ret
 
 
 def get_positions_neighboring_numerals(data, irow, icol, nrows, ncols):
@@ -120,7 +105,3 @@ def solve(txt):
 def test(data):
     txt, expected = data
     assert solve(txt) == expected
-
-
-if __name__ == "__main__":
-    main()
