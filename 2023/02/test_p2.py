@@ -5,17 +5,17 @@ import pytest
 
 
 def get_data():
-    txt = "\n".join([
-        "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
-        "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
-        "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red",
-        "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red",
-        "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green",
-    ])
-    expected = sum([48, 12, 1560, 630, 36])
-    return [
-        pytest.param((txt, expected), id="example")
+    ret = []
+    testdata = [
+        ("example.txt", sum([48, 12, 1560, 630, 36])),
+        ("input.txt", 67953),
     ]
+    for name, expected in testdata:
+        fname = __file__.replace("test_p2.py", name)
+        with open(fname, "rt") as fid:
+            txt = fid.read()
+        ret.append(pytest.param((txt, expected), id=name))
+    return ret
 
 
 def solve(txt):
@@ -37,17 +37,7 @@ def solve(txt):
     return sum(power)
 
 
-def main():
-    with open("input.txt", "rt") as fid:
-        txt = fid.read()
-    print(solve(txt))
-
-
 @pytest.mark.parametrize("data", get_data())
 def test(data):
     txt, expected = data
     assert solve(txt) == expected
-
-
-if __name__ == "__main__":
-    main()
