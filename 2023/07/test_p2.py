@@ -3,20 +3,21 @@ https://adventofcode.com/2023/day/7
 """
 from collections import Counter
 from itertools import product
-import os
-from pathlib import Path
+import pytest
 
 
-def read_sibling_file(name):
-    d = os.path.dirname(os.path.realpath(__file__))
-    f = Path(d, name)
-    with open(f, "rt") as fid:
-        return fid.read()
-
-
-def main():
-    txt = read_sibling_file("input.txt")
-    print(solve(txt))
+def get_data():
+    ret = []
+    testdata = [
+        ("example.txt", 5905),
+        ("input.txt", 250665248),
+    ]
+    for name, expected in testdata:
+        fname = __file__.replace("test_p2.py", name)
+        with open(fname, "rt") as fid:
+            txt = fid.read()
+        ret.append(pytest.param((txt, expected), id=name))
+    return ret
 
 
 class Hand:
@@ -104,11 +105,7 @@ def solve(txt):
     return sum(values)
 
 
-def test():
-    txt = read_sibling_file("example.txt")
-    expected = 5905
+@pytest.mark.parametrize("data", get_data())
+def test(data):
+    txt, expected = data
     assert solve(txt) == expected
-
-
-if __name__ == "__main__":
-    main()
