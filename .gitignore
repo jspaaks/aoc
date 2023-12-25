@@ -1,5 +1,6 @@
 /.idea
 /**/venv
-/**/input.txt
+/**/input*.txt
 /**/__pycache__
 /**/.pytest_cache
+
